@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 // Import arrow icon
 import arrow from "../assets/asset 2.svg";
@@ -39,6 +39,61 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 
 const HeroSection = () => {
+  let movement = 0;
+  const CompaniesListFirst = useRef();
+  const CompaniesListMiddle = useRef();
+  const CompaniesListLast = useRef();
+
+  const [firstVisible, setFirstVisible] = useState(false);
+  const [middleVisible, setMiddleVisible] = useState(false);
+  const [lastVisible, setLastVisible] = useState(false);
+
+  const [scrollY, setScrollY] = useState(0);
+
+  const handleScroll = () => {
+    setScrollY(window.scrollY);
+  };
+
+  useEffect(() => {
+    // Intersection Observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.target === CompaniesListFirst.current) {
+          setFirstVisible(entry.isIntersecting);
+        } else if (entry.target === CompaniesListMiddle.current) {
+          setMiddleVisible(entry.isIntersecting);
+        } else if (entry.target === CompaniesListLast.current) {
+          setLastVisible(entry.isIntersecting);
+        }
+      });
+    });
+    observer.observe(CompaniesListFirst.current);
+    observer.observe(CompaniesListMiddle.current);
+    observer.observe(CompaniesListLast.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  // Add scroll event listener
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Calculate translation based on scroll position
+  const calculateTranslateX = (elementRef, rtl) => {
+    const scrollValue = scrollY * 3;
+
+    movement =
+      elementRef === CompaniesListFirst || elementRef === CompaniesListLast
+        ? scrollValue * 0.1
+        : scrollValue * 0.12;
+    if (rtl) return `${movement}px`;
+    else return `${-movement}px`;
+  };
+
   const companies = [
     { name: "Cursor", logo: Asset3 },
     { name: "Badseah", logo: Asset4 },
@@ -130,11 +185,24 @@ const HeroSection = () => {
           </div>
 
           {/* Company Lists */}
-          <div className="flex items-center justify-center gap-4 mt-8 transition-transform ease-linear -translate-x-40">
+          <div
+            ref={CompaniesListFirst}
+            className={`flex items-center justify-center gap-4 mt-8 transition-transform ease-linear text-center flex-row-reverse`}
+            style={{
+              transform: `${
+                firstVisible
+                  ? `translateX(${calculateTranslateX(
+                      CompaniesListFirst,
+                      true
+                    )}`
+                  : `${movement}px`
+              }`,
+            }}
+          >
             {companies.map((company, index) => (
               <div
                 key={`list1-${index}`}
-                className="w-32 h-32 p-8 bg-white border border-gray-300 rounded-2xl"
+                className="flex flex-col items-center w-32 h-32 p-8 text-center bg-white border border-gray-300 rounded-2xl"
               >
                 <img className="-mt-4" src={company.logo} alt={company.name} />
                 <p className="mt-2">{company.name}</p>
@@ -142,11 +210,24 @@ const HeroSection = () => {
             ))}
           </div>
 
-          <div className="flex items-center justify-center gap-4 mt-8 transition-transform ease-linear translate-x-6">
+          <div
+            ref={CompaniesListMiddle}
+            className="flex items-center justify-center gap-4 mt-8 text-center transition-transform ease-linear"
+            style={{
+              transform: `${
+                middleVisible
+                  ? `translateX(${calculateTranslateX(
+                      CompaniesListMiddle,
+                      false
+                    )}`
+                  : `${movement}px`
+              }`,
+            }}
+          >
             {companies.slice(10).map((company, index) => (
               <div
                 key={`list1-${index}`}
-                className="w-32 h-32 p-8 bg-white border border-gray-300 rounded-2xl"
+                className="flex flex-col items-center w-32 h-32 p-8 text-center bg-white border border-gray-300 rounded-2xl"
               >
                 <img className="-mt-4" src={company.logo} alt={company.name} />
                 <p className="mt-2">{company.name}</p>
@@ -154,11 +235,21 @@ const HeroSection = () => {
             ))}
           </div>
 
-          <div className="flex items-center justify-center gap-4 mt-8 transition-transform ease-linear -translate-x-12 md:hidden">
-            {companies.slice(16).map((company, index) => (
+          <div
+            ref={CompaniesListLast}
+            className="flex flex-row-reverse items-center justify-center gap-4 mt-8 text-center transition-transform ease-linear md:hidden"
+            style={{
+              transform: `${
+                lastVisible
+                  ? `translateX(${calculateTranslateX(CompaniesListLast, true)}`
+                  : `${movement}px`
+              }`,
+            }}
+          >
+            {companies.slice(13).map((company, index) => (
               <div
                 key={`list1-${index}`}
-                className="w-32 h-32 p-8 bg-white border border-gray-300 rounded-2xl"
+                className="flex flex-col items-center w-32 h-32 p-8 text-center bg-white border border-gray-300 rounded-2xl"
               >
                 <img className="-mt-4" src={company.logo} alt={company.name} />
                 <p className="mt-2">{company.name}</p>
