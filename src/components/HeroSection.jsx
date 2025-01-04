@@ -125,7 +125,7 @@ const HeroSection = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 via-orange-50 to-transparent">
+    <div className="bg-gradient-to-b from-purple-50 via-orange-50 to-transparent">
       {/* Hero Section */}
       <div className="flex flex-col max-w-3xl px-6 pt-6 mx-auto pb-14 md:pb-24 sm:items-center sm:text-center">
         {/* Version Text */}
