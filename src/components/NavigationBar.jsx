@@ -20,7 +20,6 @@ const NavigationBar = () => {
   const handleMenu = () => {
     setMenu(!menu);
     setMenuIcon(!menuIcon);
-    console.log("running");
   };
 
   return (

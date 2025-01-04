@@ -13,12 +13,11 @@ const FeaturesLine = () => {
     setScroll(window.scrollY);
   };
 
-  console.log(scroll);
   const calculateScroll = () => {
     let smallScroll = scroll / 100;
     let threshold = 50;
     movement = threshold * smallScroll;
-    console.log(movement);
+
     return movement;
   };
 
@@ -56,7 +55,6 @@ const FeaturesLine = () => {
               : `translateX(-${movement}px)`,
           }}
         >
-          {console.log(movement)}
           <h3 className="mx-2 my-0 text-2xl font-semibold leading-7 whitespace-nowrap font-primary">
             Download Analytics
           </h3>
