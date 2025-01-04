@@ -1,4 +1,6 @@
 import React from "react";
+import asset54 from "../assets/asset 54.svg";
+import asset0 from "../assets/asset 0.png";
 
 const Footer = () => {
   return (
@@ -20,7 +22,7 @@ const Footer = () => {
           <a href="#" id="brand" className="flex items-center flex-1 gap-2">
             <img
               className="object-cover max-w-12 max-h-12"
-              src="./assets/asset 0.png"
+              src={asset0}
               alt="Logo"
             />
             <span className="text-lg font-medium font-primary">ToDesktop</span>
@@ -31,11 +33,7 @@ const Footer = () => {
           className="flex flex-col items-center justify-center gap-6 my-12"
         >
           <div className="flex items-center gap-2">
-            <img
-              className="w-4 h-4"
-              src="./assets/asset 54.svg"
-              alt="Y-combinator"
-            />
+            <img className="w-4 h-4" src={asset54} alt="Y-combinator" />
             <p className="text-sm text-gray-600">A Y Combinator company.</p>
           </div>
           <p className="text-sm text-gray-400">
